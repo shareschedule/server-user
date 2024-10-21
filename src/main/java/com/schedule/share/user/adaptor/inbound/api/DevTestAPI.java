@@ -12,6 +12,8 @@ import com.schedule.share.user.application.service.user.UserWriter;
 import com.schedule.share.user.domain.RefreshToken;
 import com.schedule.share.user.domain.User;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,18 +25,15 @@ import java.util.Random;
 @RequiredArgsConstructor
 public class DevTestAPI {
 
-    private final LoginServiceUseCase loginServiceUseCase;
-    private final SocialLoginDTOMapper socialLoginDTOMapper;
-    private final UserDTOMapper userDTOMapper;
-    private final UserWriter userWriter;
+    private static final Logger log = LoggerFactory.getLogger(DevTestAPI.class);
     private final JwtUtil jwtUtil;
     private final UserCommandAdaptor userCommandAdaptor;
-    private final TokenServiceUseCase tokenServiceUseCase;
     private final TokenCommandPort tokenCommandPort;
 
 
     @GetMapping(value = "/create-user")
     public TokenResponseDTO.AccessAndRefreshToken signup() {
+        log.info("Sign up");
         Random rand = new Random();
         char ri1 = (char) (rand.nextInt(26) + 97);
         char ri2 = (char) (rand.nextInt(26) + 97);
