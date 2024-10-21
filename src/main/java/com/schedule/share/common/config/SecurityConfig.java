@@ -1,56 +1,49 @@
 package com.schedule.share.common.config;
 
-import io.swagger.v3.oas.models.Operation;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.springdoc.core.customizers.OperationCustomizer;
-import org.springframework.boot.autoconfigure.security.ConditionalOnDefaultWebSecurity;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.auditing.config.AuditingConfiguration;
+import org.springframework.security.authorization.AuthorizationDecision;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.web.method.HandlerMethod;
+import org.springframework.security.web.util.matcher.IpAddressMatcher;
 
 @Configuration
-@EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final JwtFilter jwtFilter;
+    @Value("${API_GATEWAY_IP}")
+    private String GATEWAY_IP;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-
-        setHttpConfig(httpSecurity);
         permitSwagger(httpSecurity);
-        setHttpSecurity(httpSecurity);
+        setHttpConfig(httpSecurity);
 
-        return httpSecurity.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class).build();
+        return httpSecurity.build();
     }
 
     private void permitSwagger(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeHttpRequests( auth -> auth
                 .requestMatchers(new AntPathRequestMatcher("/swagger-ui/**")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/v3/api-docs/**")).permitAll()
+                .requestMatchers(new AntPathRequestMatcher("/dev/**")).permitAll()
         );
     }
 
     private void setHttpConfig(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.formLogin(AbstractHttpConfigurer::disable)
-                .csrf(AbstractHttpConfigurer::disable);
-    }
-
-    private void setHttpSecurity(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.authorizeHttpRequests(auth -> auth
-                .requestMatchers(new AntPathRequestMatcher("/login/naver/user")).permitAll()
-                .requestMatchers(new AntPathRequestMatcher("/login/naver")).permitAll()
-                .requestMatchers(new AntPathRequestMatcher("/token/access-token")).permitAll()
-                .anyRequest().authenticated()
-        );
+        IpAddressMatcher hasIpAddress = new IpAddressMatcher(GATEWAY_IP);
+        httpSecurity
+                .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers((new AntPathRequestMatcher("/**")))
+                        .access(((authentication, context) ->
+                                new AuthorizationDecision(hasIpAddress.matches(context.getRequest()))
+                        ))
+                        .anyRequest().denyAll()
+                );
     }
 }
