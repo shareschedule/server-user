@@ -1,6 +1,6 @@
 spring:
   application:
-    name: SSUser
+    name: user
   profiles:
     active: dev
   config:
