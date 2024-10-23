@@ -2,13 +2,8 @@ package com.schedule.share.user.adaptor.inbound.api;
 
 import com.schedule.share.common.util.JwtUtil;
 import com.schedule.share.user.adaptor.inbound.api.dto.TokenResponseDTO;
-import com.schedule.share.user.adaptor.inbound.api.mapper.SocialLoginDTOMapper;
-import com.schedule.share.user.adaptor.inbound.api.mapper.UserDTOMapper;
 import com.schedule.share.user.adaptor.outbound.UserCommandAdaptor;
-import com.schedule.share.user.application.port.inbound.LoginServiceUseCase;
-import com.schedule.share.user.application.port.inbound.TokenServiceUseCase;
 import com.schedule.share.user.application.port.outbound.TokenCommandPort;
-import com.schedule.share.user.application.service.user.UserWriter;
 import com.schedule.share.user.domain.RefreshToken;
 import com.schedule.share.user.domain.User;
 import lombok.RequiredArgsConstructor;

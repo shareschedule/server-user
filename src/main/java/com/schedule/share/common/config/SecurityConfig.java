@@ -1,7 +1,7 @@
 package com.schedule.share.common.config;
 
+import com.netflix.discovery.EurekaClient;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authorization.AuthorizationDecision;
@@ -15,8 +15,7 @@ import org.springframework.security.web.util.matcher.IpAddressMatcher;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    @Value("${API_GATEWAY_IP}")
-    private String GATEWAY_IP;
+    private final EurekaClient discoveryClient;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
@@ -35,7 +34,10 @@ public class SecurityConfig {
     }
 
     private void setHttpConfig(HttpSecurity httpSecurity) throws Exception {
-        IpAddressMatcher hasIpAddress = new IpAddressMatcher(GATEWAY_IP);
+        IpAddressMatcher hasIpAddress = new IpAddressMatcher(
+                discoveryClient.getNextServerFromEureka("GATEWAY", false).getIPAddr()
+        );
+
         httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
