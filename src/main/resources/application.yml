@@ -12,5 +12,3 @@ eureka:
     fetch-registry: true
     service-url:
       defaultZone: http://son:1234@localhost:8761/eureka
-
-#        format_sql: true

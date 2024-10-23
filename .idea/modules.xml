@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/share-schedule-java.iml" filepath="$PROJECT_DIR$/.idea/modules/share-schedule-java.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/share-schedule-java.main.iml" filepath="$PROJECT_DIR$/.idea/modules/share-schedule-java.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/share-schedule-java.test.iml" filepath="$PROJECT_DIR$/.idea/modules/share-schedule-java.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/share-user.iml" filepath="$PROJECT_DIR$/.idea/modules/share-user.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/share-user.main.iml" filepath="$PROJECT_DIR$/.idea/modules/share-user.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/share-user.test.iml" filepath="$PROJECT_DIR$/.idea/modules/share-user.test.iml" />
     </modules>
   </component>
 </project>
