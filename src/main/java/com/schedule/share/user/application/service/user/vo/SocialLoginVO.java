@@ -50,7 +50,7 @@ public class SocialLoginVO {
     public record Token(
             String accessToken,
             String refreshToken,
-            User user
+            UserVO.User user
     ) {
     }
 }

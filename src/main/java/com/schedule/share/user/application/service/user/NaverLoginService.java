@@ -59,7 +59,7 @@ public class NaverLoginService implements LoginServiceUseCase<SocialLoginVO.Nave
         return SocialLoginVO.Token.builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
-                .user(userSave)
+                .user(userMapper.userToUserVO(userSave))
                 .build();
     }
 
@@ -84,7 +84,7 @@ public class NaverLoginService implements LoginServiceUseCase<SocialLoginVO.Nave
             return SocialLoginVO.Token.builder()
                     .accessToken(accessToken)
                     .refreshToken(refreshToken)
-                    .user(user)
+                    .user(userMapper.userToUserVO(user))
                     .build();
         }
     }

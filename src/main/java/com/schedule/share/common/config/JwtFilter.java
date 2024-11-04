@@ -14,33 +14,34 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
-@Component
-@RequiredArgsConstructor
-public class JwtFilter extends OncePerRequestFilter {
+//@Component
+//@RequiredArgsConstructor
+public class JwtFilter {
+//public class JwtFilter extends OncePerRequestFilter {
 
-    private final JwtUtil jwtUtil;
+//    private final JwtUtil jwtUtil;
+//
+//    @Override
+//    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+//        String accessToken = getAccessToken(request);
+//
+//        jwtUtil.checkToken(accessToken);
+//
+//        long userId = jwtUtil.getUserId(accessToken);
+//
+//        UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(userId, null);
+//        SecurityContextHolder.getContext().setAuthentication(auth);
+//        filterChain.doFilter(request, response);
+//
+//    }
 
-    @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String accessToken = getAccessToken(request);
-
-        jwtUtil.checkToken(accessToken);
-
-        long userId = jwtUtil.getUserId(accessToken);
-
-        UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(userId, null);
-        SecurityContextHolder.getContext().setAuthentication(auth);
-        filterChain.doFilter(request, response);
-
-    }
-
-    private String getAccessToken(HttpServletRequest request) {
-        String authorization = request.getHeader("Authorization");
-
-        if(authorization.startsWith("Bearer")) {
-            return authorization.substring(7);
-        }
-
-        return null;
-    }
+//    private String getAccessToken(HttpServletRequest request) {
+//        String authorization = request.getHeader("Authorization");
+//
+//        if(authorization.startsWith("Bearer")) {
+//            return authorization.substring(7);
+//        }
+//
+//        return null;
+//    }
 }

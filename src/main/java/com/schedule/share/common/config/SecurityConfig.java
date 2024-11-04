@@ -29,7 +29,7 @@ public class SecurityConfig {
         httpSecurity.authorizeHttpRequests( auth -> auth
                 .requestMatchers(new AntPathRequestMatcher("/swagger-ui/**")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/v3/api-docs/**")).permitAll()
-                .requestMatchers(new AntPathRequestMatcher("/dev/**")).permitAll()
+                .requestMatchers(new AntPathRequestMatcher("/login/**")).permitAll()
         );
     }
 

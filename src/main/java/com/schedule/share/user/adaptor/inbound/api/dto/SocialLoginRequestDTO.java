@@ -17,4 +17,10 @@ public class SocialLoginRequestDTO {
             byte[] image
     ) {
     }
+
+    @Builder
+    public record Signup(
+            NaverOauthCredential naverOauthCredential,
+            UserRequestDTO.User userInfo
+    ){}
 }

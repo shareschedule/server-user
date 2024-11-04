@@ -24,9 +24,7 @@ public class TokenService implements TokenServiceUseCase {
         long userId = jwtUtil.getUserId(refreshToken);
 
         RefreshToken refreshTokenByUserId = tokenQueryPort.getRefreshTokenByUserId(userId);
-
         if (refreshToken.equals(refreshTokenByUserId.getRefreshToken())) {
-
             String newAccessToken = jwtUtil.generateAccessToken(userId);
             String newRefreshToken = jwtUtil.generateRefreshToken(userId);
 

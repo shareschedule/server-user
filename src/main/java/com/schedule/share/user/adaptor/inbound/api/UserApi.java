@@ -36,9 +36,8 @@ public class UserApi {
     // 한명 조회
     @Operation(summary = "유저 단일 조회 API", description = "id로 유저 한명을 조회한다.")
     @GetMapping
-    public ResponseModel<UserResponseDTO.Response> get(@RequestHeader("access_token") String accessToken) {
-        long userId = jwtUtil.getUserId(accessToken);
 
+    public ResponseModel<UserResponseDTO.Response> get(@RequestHeader("X-UserId") long userId ) {
         UserVO.User user = userQuery.get(userId);
         UserResponseDTO.Response responseDTO = userDTOMapper.toResponseDTO(user);
 
