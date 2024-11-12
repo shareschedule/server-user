@@ -36,7 +36,6 @@ public class UserApi {
     // 한명 조회
     @Operation(summary = "유저 단일 조회 API", description = "id로 유저 한명을 조회한다.")
     @GetMapping
-
     public ResponseModel<UserResponseDTO.Response> get(@RequestHeader("X-UserId") long userId ) {
         UserVO.User user = userQuery.get(userId);
         UserResponseDTO.Response responseDTO = userDTOMapper.toResponseDTO(user);
@@ -47,13 +46,12 @@ public class UserApi {
     // 모두 조회
     @Operation(summary = "유저 모두 조회 API", description = "모든 유저를 조회한다.")
     @GetMapping("/list")
-    public ResponseModel<List<UserResponseDTO.Response>> getList(@RequestHeader("access_token") String accessToken) {
-        jwtUtil.checkToken(accessToken);
+    public List<UserResponseDTO.Response> getList() {
+//        jwtUtil.checkToken(accessToken);
 
         List<UserVO.User> list = userQuery.list();
         List<UserResponseDTO.Response> userListResponse = list.stream().map(userDTOMapper::toResponseDTO).toList();
-
-        return ResponseModel.of(userListResponse);
+        return userListResponse;
     }
 
     // 수정
@@ -77,9 +75,9 @@ public class UserApi {
 
     @Operation(summary = "최근에 본 캘린더 Id 수정", description = "최근에 본 캘린더의 id를 변경한다.")
     @PutMapping("/recent_calendar")
-    public void updateRecentCalendarId(@RequestHeader("access_token") String accessToken, @RequestBody UserRequestDTO.RecentCalendar body) {
-        long userId = jwtUtil.getUserId(accessToken);
-
+    public void updateRecentCalendarId(
+            @RequestHeader("X-UserId") Long userId,
+            @RequestBody UserRequestDTO.RecentCalendar body) {
         userCommand.updateCalendarId(userId, body.recentCalendarId());
     }
 }

@@ -8,6 +8,7 @@ import com.schedule.share.user.domain.User;
 import com.schedule.share.user.domain.mapper.UserMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -19,6 +20,7 @@ public class UserQueryAdaptor implements UserQueryPort {
     private final UserMapper userMapper;
 
     @Override
+    @Transactional(readOnly = true)
     public User get(long id) {
         UserEntity user = userRepository.findById(id).orElseThrow(Common404Exception::new);
 
@@ -26,6 +28,7 @@ public class UserQueryAdaptor implements UserQueryPort {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<User> list() {
         return userRepository.findAll().stream().map(
                 userMapper::userEntityToDomain
@@ -34,6 +37,7 @@ public class UserQueryAdaptor implements UserQueryPort {
 
 
     @Override
+    @Transactional(readOnly = true)
     public User getByCi(String ci) {
         return userMapper.userEntityToDomain(userRepository.findByCi(ci));
     }

@@ -8,6 +8,7 @@ import com.schedule.share.user.domain.Favorite;
 import com.schedule.share.user.domain.mapper.FavoriteMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -19,6 +20,7 @@ public class FavoriteQueryAdaptor implements FavoriteQueryPort {
     private final FavoriteMapper favoriteMapper;
 
     @Override
+    @Transactional(readOnly = true)
     public Favorite get(long id) {
         FavoriteEntity favoriteEntity = favoriteRepository.findById(id).orElseThrow(Common404Exception::new);
 
@@ -26,11 +28,13 @@ public class FavoriteQueryAdaptor implements FavoriteQueryPort {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Favorite> list() {
         return List.of();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Favorite> list(long userId) {
         favoriteRepository.findAllByUserId(userId).stream().map(
                 favoriteMapper::favoriteEntityToDomain
